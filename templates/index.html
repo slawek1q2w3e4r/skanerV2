@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skaner Sieci</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            background-color: #3a3a3a;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #111111;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        button.mainbutton,
+        button.secondaryabutton {
+            padding: 12px 24px; /* Increase padding for a more substantial look */
+            border: none;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: block;
+            width: 25%; /* Full width for both buttons */
+            transition: background 0.3s, transform 0.2s; /* Smooth transitions */
+        }
+
+        button.mainbutton {
+            background: #e4e4e4; /* Green background for main action */
+            color: black;
+        }
+
+        button.secondaryabutton {
+            background: #303030; /* Red background for secondary actions */
+            border: 1px solid #e4e4e4; /* Match border to background */
+        }
+
+        button:hover {
+            background: #9e9e9e;
+        }
+
+        button:active {
+            transform: scale(0.95); /* Slightly shrink button on press */
+        }
+
+        .textarea {
+            padding: 12px 16px; /* Match button padding */
+            background-color: #e4e4e4;
+            border: none;
+            color: black;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: block;
+            size: 222; /* Full width */
+            font-size: 16px; /* Increase font size for better readability */
+        }
+
+        .console {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e0e0e015;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            display: none; /* Ukryj na początku */
+        }
+
+        .action-buttons {
+            margin-top: 20px; /* Odstęp dla akcji */
+            display: flex;
+            justify-content: space-between;
+           /* display: none; /* Ukryj przyciski akcji na początku */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Skaner Sieci</h1>
+        <button class="mainbutton" id="scanButton">Skanuj Sieć</button>
+        <div class="console" id="console"></div>
+        <h1>Akcje</h1>
+        <select id="ipSelect"></select>
+
+        <div class="action-buttons" id="actionButtons">
+            <button class="secondaryabutton" id="sendMessageButton">Wyślij Wiadomość</button>
+            <textarea id="Message"></textarea>
+            <button class="secondaryabutton" id="restartDeviceButton">Zrestartuj Urządzenie</button>
+            <button class="secondaryabutton" id="screenshotButton">Zrób Zrzut Ekranu</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('scanButton').onclick = function() {
+            fetch('/scan')
+                .then(response => response.json())
+                .then(data => {
+                    const consoleDiv = document.getElementById('console');
+                    consoleDiv.innerHTML = "Znalezione urządzenia:<br>";
+
+                    // Wyczyść rozwijane menu z IP
+                    const select = document.getElementById('ipSelect');
+                    select.innerHTML = ''; // Wyczyść poprzednie opcje
+
+                    // Dodaj znalezione urządzenia do konsoli i rozwijanego menu
+                    data.forEach(device => {
+                        consoleDiv.innerHTML += `IP: ${device.ip}, Port: ${device.port}<br>`;
+
+                        const option = document.createElement('option');
+                        option.value = device.ip;
+                        option.textContent = device.ip;
+                        select.appendChild(option);
+                    });
+
+                    select.style.display = 'block'; // Pokaż rozwijane menu
+                    document.getElementById('actionButtons').style.display = 'block'; // Pokaż przyciski akcji
+                })
+                .catch(error => {
+                    console.error('Błąd:', error);
+                });
+        };
+
+        document.getElementById('sendMessageButton').onclick = function() {
+            const selectedIp = document.getElementById('ipSelect').value;
+            if (selectedIp) {
+                // Logika do wysyłania wiadomości do wybranego IP
+                const consoleDiv = document.getElementById('console');
+                consoleDiv.innerHTML += `Wysyłanie wiadomości do ${selectedIp}...<br>`;
+            }
+        };
+
+        document.getElementById('restartDeviceButton').onclick = function() {
+            const selectedIp = document.getElementById('ipSelect').value;
+            if (selectedIp) {
+                // Logika do restartowania wybranego urządzenia
+                const consoleDiv = document.getElementById('console');
+                consoleDiv.innerHTML += `Restartowanie urządzenia ${selectedIp}...<br>`;
+            }
+        };
+
+        document.getElementById('screenshotButton').onclick = function() {
+            const selectedIp = document.getElementById('ipSelect').value;
+            if (selectedIp) {
+                // Logika do robienia zrzutu ekranu wybranego urządzenia
+                const consoleDiv = document.getElementById('console');
+                consoleDiv.innerHTML += `Robienie zrzutu ekranu urządzenia ${selectedIp}...<br>`;
+            }
+        };
+    </script>
+</body>
+</html>
