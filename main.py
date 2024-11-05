@@ -1,8 +1,6 @@
 from flask import Flask, render_template, jsonify
 from network_scanner import NetworkScanner
-import webbrowser
 import threading
-from sendMessage import send_message
 import requests
 
 app = Flask(__name__)

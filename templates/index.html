@@ -53,7 +53,7 @@
             transform: scale(0.95); /* Slightly shrink button on press */
         }
 
-        .textarea {
+        textarea {
             padding: 12px 16px; /* Match button padding */
             background-color: #e4e4e4;
             border: none;
@@ -87,8 +87,16 @@
             margin-top: 20px; /* Odstęp dla akcji */
             display: flex;
             justify-content: space-between;
-           /* display: none; /* Ukryj przyciski akcji na początku */
+            display: none; /* Ukryj przyciski akcji na początku */
+            resize: none;
         }
+
+        .message-Button {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
     </style>
 </head>
 <body>
@@ -100,8 +108,10 @@
         <select id="ipSelect"></select>
 
         <div class="action-buttons" id="actionButtons">
-            <button class="secondaryabutton" id="sendMessageButton">Wyślij Wiadomość</button>
-            <textarea id="Message"></textarea>
+            <div class="message-Button" id="sendMassage">
+                <button class="secondaryabutton" id="sendMessageButton">Wyślij Wiadomość</button>
+                <textarea id="Message"></textarea>
+            </div>
             <button class="secondaryabutton" id="restartDeviceButton">Zrestartuj Urządzenie</button>
             <button class="secondaryabutton" id="screenshotButton">Zrób Zrzut Ekranu</button>
         </div>
