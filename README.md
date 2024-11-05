@@ -1,3 +1,3 @@
 # skanerV2
 
-## pip install flask, threading, import requests
+## pip install flask threading requests
