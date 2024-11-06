@@ -53,6 +53,32 @@
             transform: scale(0.95); /* Slightly shrink button on press */
         }
 
+        .console {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e0e0e015;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            display: none; /* Ukryj na początku */
+            border-radius: 5px 10px 5px 10px;
+        }
+
+        .action-buttons {
+            margin-top: 20px; /* Odstęp dla akcji */
+            display: flex;
+            justify-content: space-between;
+            display: none; /* Ukryj przyciski akcji na początku */
+            resize: none;
+        }
+
         textarea {
             padding: 12px 16px; /* Match button padding */
             background-color: #e4e4e4;
@@ -69,33 +95,7 @@
             font-size: 16px; /* Increase font size for better readability */
         }
 
-        .console {
-            margin-top: 20px;
-            padding: 10px;
-            background: #e0e0e015;
-            border-radius: 5px;
-            max-height: 200px;
-            overflow-y: auto;
-            font-family: monospace;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 20px;
-            display: none; /* Ukryj na początku */
-        }
-
-        .action-buttons {
-            margin-top: 20px; /* Odstęp dla akcji */
-            display: flex;
-            justify-content: space-between;
-            display: none; /* Ukryj przyciski akcji na początku */
-            resize: none;
-        }
-
-        .message-Button {
-            margin-top: 20px;
+        .SSHButton {
             display: flex;
             justify-content: space-between;
         }
@@ -111,12 +111,12 @@
         <select id="ipSelect"></select>
 
         <div class="action-buttons" id="actionButtons">
-            <div class="message-Button" id="sendMassage">
-                <button class="secondaryabutton" id="sendMessageButton">Wyślij Wiadomość</button>
-                <textarea id="Message"></textarea>
+            <button class="secondaryabutton" id="RDPButton">Połącz (RDP)</button>
+            <div class="SSHButtonClass" id="SSHButtons">
+                <button class="secondaryabutton" id="SSHButton">Połącz (SSH)</button>
+                <textarea placeholder="Użytkownik SSH" id="SSHLogin"></textarea>
             </div>
-            <button class="secondaryabutton" id="restartDeviceButton">Zrestartuj Urządzenie</button>
-            <button class="secondaryabutton" id="screenshotButton">Zrób Zrzut Ekranu</button>
+            <button class="secondaryabutton" id="OpenButton">Otwórz</button>
         </div>
     </div>
 
@@ -150,31 +150,36 @@
                 });
         };
 
-        document.getElementById('sendMessageButton').onclick = function() {
-            const selectedIp = document.getElementById('ipSelect').value;
-            if (selectedIp) {
-                // Logika do wysyłania wiadomości do wybranego IP
-                const consoleDiv = document.getElementById('console');
-                consoleDiv.innerHTML += `Wysyłanie wiadomości do ${selectedIp}...<br>`;
-            }
+        document.getElementById('RDPButton').onclick = function() {
+        const selectedIp = document.getElementById('ipSelect').value;
+        if (selectedIp) {
+
+            const consoleDiv = document.getElementById('console');
+            consoleDiv.innerHTML += `Próba łączenia sie z urządzeniem ${selectedIp} poprzez RDP...<br>`;
+        }
         };
 
-        document.getElementById('restartDeviceButton').onclick = function() {
-            const selectedIp = document.getElementById('ipSelect').value;
-            if (selectedIp) {
-                // Logika do restartowania wybranego urządzenia
-                const consoleDiv = document.getElementById('console');
-                consoleDiv.innerHTML += `Restartowanie urządzenia ${selectedIp}...<br>`;
-            }
+        document.getElementById('SSHButton').onclick = function() {
+        const selectedIp = document.getElementById('ipSelect').value;
+        const SSHLogin = document.getElementById('SSHLogin').value;
+        if (selectedIp) {
+
+            const Ip = SSHLogin + '@' + selectedIp;
+
+            const consoleDiv = document.getElementById('console');
+            consoleDiv.innerHTML += `Próba połączenia sie z ${selectedIp} poprzez SSH...<br>`;
+        }
         };
 
-        document.getElementById('screenshotButton').onclick = function() {
-            const selectedIp = document.getElementById('ipSelect').value;
-            if (selectedIp) {
-                // Logika do robienia zrzutu ekranu wybranego urządzenia
-                const consoleDiv = document.getElementById('console');
-                consoleDiv.innerHTML += `Robienie zrzutu ekranu urządzenia ${selectedIp}...<br>`;
-            }
+        document.getElementById('OpenButton').onclick = function() {
+        const selectedIp = document.getElementById('ipSelect').value;
+        if (selectedIp) {
+
+            window.location.href = 'https://' + selectedIp;
+
+            const consoleDiv = document.getElementById('console');
+            consoleDiv.innerHTML += `Próba otwarcia urządzenia ${selectedIp} w przeglądarce...<br>`;
+        }
         };
     </script>
 </body>
