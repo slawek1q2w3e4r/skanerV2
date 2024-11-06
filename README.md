@@ -4,7 +4,7 @@
 
 ### 1. Zainstaluj potrzebne pakiety do pythona:
 ```
-pip install flask threading requests
+pip install flask threading requests sockets
 ```
 ### 2. Pobierz i rozpakuj plik z kodem
 ### 3. Przejdź do katalogu z kodem
