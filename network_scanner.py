@@ -26,7 +26,30 @@ class NetworkScanner:
 
     def scan_network_for_devices(self):
         self.devices.clear()  # Wyczyść poprzednie wyniki
-        network_prefix = "192.168.88."  # Zmień na własny prefiks
+
+        # Ustawiam prefix automatycznie
+        def get_ip():
+            # Biorę adres lokalnego interfejsu przy użyciu socketów
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.settimeout(0)
+            try:
+                s.connect(('8.8.8.8', 80))  # Łączymy się z dnsem googla żeby mieć ten adres którym komp się łączy z internetem a nie np adres wirtualnej karty sieciowej wirtualboxa albo adres pętli zwrotnej
+                ip = s.getsockname()[0]
+            except Exception:
+                ip = '127.0.0.1'  # Jak się z niczym nie połączy ustawia na pętle zwrotną żeby nie wywaliło błędu i żeby nie zcrashowało programu
+            finally:
+                s.close()  # Zamyka socket bo nie będzie już nam potrzebny
+            return ip
+
+        # Ustawiam sobie zmienną na adres ip
+        ip_address = get_ip()
+
+        # Dzielę go na 4 oktety
+        octets = ip_address.split(".")
+
+        # Łącze oktety ze sobą ale tu już bez ostatniego
+        network_prefix = ".".join(octets[:-1]) + "."
+
         print("Rozpoczynam skanowanie sieci...")
 
         self.running = True  # Rozpocznij skanowanie
