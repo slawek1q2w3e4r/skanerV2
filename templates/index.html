@@ -84,7 +84,7 @@
         }
 
         textarea {
-            padding: 15.5px 16px; /* Match button padding */
+            padding: 12px 16px; /* Match button padding */
             background-color: #e4e4e4;
             border: none;
             color: black;
@@ -180,7 +180,7 @@
         const selectedIp = document.getElementById('ipSelect').value;
         if (selectedIp) {
 
-            window.location.href = 'https://' + selectedIp;
+            window.open('http://' + selectedIp, '_blank');
 
             const consoleDiv = document.getElementById('console');
             consoleDiv.innerHTML += `Próba otwarcia urządzenia ${selectedIp} w przeglądarce...<br>`;
